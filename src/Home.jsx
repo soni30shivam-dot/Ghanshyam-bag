@@ -1,141 +1,66 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { MessageSquare, PhoneCall, ShoppingBag, ArrowRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { config } from '../config';
+import React from 'react';
 
 export default function Home() {
-  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch(`${config.apiUrl}/products?featured=true`)
-      .then(r => r.json())
-      .then(data => {
-        if (Array.isArray(data)) setFeaturedProducts(data.slice(0, 4));
-      })
-      .catch(console.error);
-  }, []);
+  // Dummy Data for Products
+  const products = [
+    { id: 1, name: 'Premium Office Bag', price: '₹1,299', rating: '4.8 ⭐', img: 'https://images.unsplash.com/photo-1547949003-9792a18a2601?w=400' },
+    { id: 2, name: 'Student Backpack', price: '₹899', rating: '4.5 ⭐', img: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400' },
+    { id: 3, name: 'Travel Duffle', price: '₹1,599', rating: '4.9 ⭐', img: 'https://images.unsplash.com/photo-1581605405669-fcdf811c5afa?w=400' }
+  ];
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="bg-blue-950 text-white relative py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center" />
-          <div className="absolute inset-0 bg-blue-950/80 mix-blend-multiply" />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold font-sans tracking-tight mb-6"
-          >
-            Champa's Trusted Bag & Luggage Destination
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-blue-100 mb-10 max-w-2xl mx-auto"
-          >
-            School Bags, College Bags, Travel Bags, Trolley Bags, Office Bags and Premium Luggage Collection at Wholesale & Retail Prices.
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Link to="/products" className="w-full sm:w-auto px-8 py-4 bg-white text-blue-900 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors shadow-lg">
-              <ShoppingBag className="w-5 h-5" />
-              Shop Now
-            </Link>
-            <a href="https://wa.me/918109950542" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 bg-[#25D366] text-white rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-colors shadow-lg">
-              <MessageSquare className="w-5 h-5" />
-              WhatsApp Order
-            </a>
-            <a href="tel:+918109950542" className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-white/30 text-white rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors">
-              <PhoneCall className="w-5 h-5" />
-              Call Now
-            </a>
-          </motion.div>
-        </div>
+    <div style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#f8f9fa' }}>
+      {/* 1. Header & Nav */}
+      <header style={{ background: '#0A192F', color: 'white', padding: '15px 50px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2>Ghanshyam Bag</h2>
+        <input type="text" placeholder="Search bags..." style={{ padding: '8px', borderRadius: '5px', border: 'none' }} />
+        <div>Cart 🛒 | Wishlist ❤️ | <a href="/admin/login" style={{color:'white'}}>Admin</a></div>
+      </header>
+
+      {/* 2. Navigation Menu */}
+      <nav style={{ display: 'flex', gap: '20px', padding: '10px 50px', background: '#e9ecef', justifyContent: 'center' }}>
+        {['Home', 'Men', 'Women', 'School', 'Travel', 'Offers'].map(item => <a href="#" key={item} style={{textDecoration:'none', color:'#333'}}>{item}</a>)}
+      </nav>
+
+      {/* 3. Hero Banner */}
+      <section style={{ height: '400px', background: '#ddd', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+        <h1>New Summer Collection 2026</h1>
+        <button style={{ padding: '15px 30px', background: '#38bdf8', border: 'none', borderRadius: '10px', fontSize: '18px' }}>Shop Now</button>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <h2 className="text-3xl font-bold font-sans tracking-tight text-gray-900 mb-2">Featured Products</h2>
-              <p className="text-gray-500">Discover our most popular collections</p>
+      {/* 4. Featured Products */}
+      <section style={{ padding: '50px' }}>
+        <h2>Popular Products</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+          {products.map(p => (
+            <div key={p.id} style={{ border: '1px solid #ddd', padding: '15px', borderRadius: '10px', textAlign: 'center' }}>
+              <img src={p.img} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+              <h3>{p.name}</h3>
+              <p>{p.price} | {p.rating}</p>
+              <button style={{ width: '100%', padding: '10px', background: '#25D366', border: 'none', color: 'white' }}>Add to Cart</button>
             </div>
-            <Link to="/products" className="hidden sm:flex items-center gap-2 text-blue-600 font-medium hover:text-blue-800">
-              View All <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((p, i) => (
-              <motion.div 
-                key={p.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group flex flex-col"
-              >
-                <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
-                  {p.image ? (
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-300">
-                      <ShoppingBag className="w-12 h-12" />
-                    </div>
-                  )}
-                  {p.compareAtPrice && (
-                    <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                      SALE
-                    </div>
-                  )}
-                </div>
-                <div className="p-5 flex-1 flex flex-col">
-                  <span className="text-xs font-semibold text-blue-600 mb-1">{p.categoryName || 'Bags'}</span>
-                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2">{p.name}</h3>
-                  <div className="mt-auto flex items-center gap-2">
-                    <span className="text-lg font-bold text-gray-900">鈧箋p.price}</span>
-                    {p.compareAtPrice && (
-                      <span className="text-sm text-gray-400 line-through">鈧箋p.compareAtPrice}</span>
-                    )}
-                  </div>
-                  <a 
-                    href={`https://wa.me/918109950542?text=Hi, I want to order: ${p.name}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="mt-4 w-full block text-center py-2 bg-blue-600 text-white rounded-md font-medium text-sm hover:bg-blue-700 transition"
-                  >
-                    Order on WhatsApp
-                  </a>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          {featuredProducts.length === 0 && (
-             <div className="text-center py-12 bg-white rounded-xl border border-gray-100 border-dashed">
-             <p className="text-gray-500">No products available yet.</p>
-           </div>
-          )}
-
-          <div className="mt-8 text-center sm:hidden">
-            <Link to="/products" className="inline-flex items-center gap-2 text-blue-600 font-medium hover:text-blue-800">
-              View All Products <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          ))}
         </div>
       </section>
+
+      {/* 5. Why Choose Us */}
+      <section style={{ padding: '50px', textAlign: 'center', background: '#fff' }}>
+        <h2>Why Choose Us?</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+          <div>✅ Quality Assurance</div>
+          <div>🚚 Fast Delivery</div>
+          <div>↩️ Easy Returns</div>
+        </div>
+      </section>
+
+      {/* 6. Footer */}
+      <footer style={{ background: '#0A192F', color: 'white', padding: '40px', textAlign: 'center' }}>
+        <p>Ghanshyam Bag - The best quality shop in Champa.</p>
+        <div style={{ gap: '15px', display: 'flex', justifyContent: 'center' }}>
+          <a href="#" style={{color:'white'}}>Instagram</a> | <a href="#" style={{color:'white'}}>WhatsApp</a>
+        </div>
+        <p style={{marginTop:'20px'}}>© 2026 Ghanshyam Bag. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 }
