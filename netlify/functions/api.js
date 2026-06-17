@@ -8,6 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const router = express.Router();
+
 const JWT_SECRET = process.env.JWT_SECRET || 'ghanshyam_super_secret_key_2025';
 
 // Mock DB 
@@ -18,7 +20,7 @@ const initAdmin = async () => {
 };
 initAdmin();
 
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = users.find(u => u.username === username);
@@ -35,8 +37,12 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/products', (req, res) => {
+router.get('/products', (req, res) => {
   res.json({ success: true, data: [] });
 });
+
+// Netlify के सटीक रास्तों पर राउटर को सेट करना
+app.use('/.netlify/functions/api', router);
+app.use('/api', router);
 
 export const handler = serverless(app);
