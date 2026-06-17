@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom';
-import Home from './Home';
-import AdminLogin from './AdminLogin';
-import AdminDashboard from './AdminDashboard';
+import Home from './Home.jsx';
+import AdminLogin from './AdminLogin.jsx';
+import AdminDashboard from './AdminDashboard.jsx';
 
 export default function App() {
   return (
