@@ -1,16 +1,31 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [settings, setSettings] = useState({
+    upiId: 'सेट नहीं है',
+    storeName: 'Ghanshyam Bag'
+  });
+
+  useEffect(() => {
+    // डैशबोर्ड से सेव की गई सेटिंग्स को यहाँ से उठाता है
+    const savedSettings = localStorage.getItem('siteSettings');
+    if (savedSettings) {
+      setSettings(JSON.parse(savedSettings));
+    }
+  }, []);
+
   return (
-    <div style={{ textAlign: 'center', padding: '50px 20px' }}>
-      <h1 style={{ color: '#0A192F', fontSize: '2.5rem', marginBottom: '10px' }}>Champa's Trusted Bag & Luggage Destination</h1>
-      <p style={{ color: '#6B21A8', fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 30px' }}>
-        School Bags, College Bags, Travel Bags, Trolley Bags, Office Bags and Premium Luggage Collection.
-      </p>
-      
-      <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
-        <a href="https://wa.me/918109950542" style={{ padding: '12px 25px', backgroundColor: '#25D366', color: 'white', textDecoration: 'none', borderRadius: '5px', fontWeight: 'bold' }}>WhatsApp Order</a>
-        <a href="tel:+918109950542" style={{ padding: '12px 25px', backgroundColor: '#0A192F', color: 'white', textDecoration: 'none', borderRadius: '5px', fontWeight: 'bold' }}>Call Now</a>
+    <div style={{ padding: '20px', textAlign: 'center' }}>
+      {/* यहाँ से दुकान का नाम डैशबोर्ड से अपडेट होगा */}
+      <h1 style={{ color: '#0A192F' }}>{settings.storeName}</h1>
+      <p>हमारे बैग्स की सबसे बेहतरीन दुकान!</p>
+
+      <div style={{ marginTop: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '10px' }}>
+        <h3>पेमेंट के लिए यहाँ पेमेंट करें:</h3>
+        {/* यहाँ से UPI ID डैशबोर्ड से अपडेट होगी */}
+        <p style={{ fontSize: '20px', fontWeight: 'bold', color: '#6B21A8' }}>
+          UPI ID: {settings.upiId}
+        </p>
       </div>
     </div>
   );
