@@ -1,48 +1,47 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminDashboard() {
+  const [activeTab, setActiveTab] = useState('Dashboard');
   const navigate = useNavigate();
-  
-  // सेटिंग्स को पहले से लोड करना
-  const [settings, setSettings] = useState(() => {
-    const saved = localStorage.getItem('siteSettings');
-    return saved ? JSON.parse(saved) : { upiId: 'अपना UPI यहाँ डालें', storeName: 'Ghanshyam Bag' };
-  });
 
-  const handleSave = () => {
-    localStorage.setItem('siteSettings', JSON.stringify(settings));
-    alert('सेटिंग्स सफलतापूर्वक सेव हो गई हैं!');
+  const menuItems = [
+    'Dashboard', 'Products', 'Categories', 'Orders', 'Customers', 
+    'Banners', 'Coupons', 'Inventory', 'Reviews', 'Payments', 'Settings'
+  ];
+
+  const renderContent = () => {
+    switch(activeTab) {
+      case 'Dashboard': return <div><h3>📊 Analytics Overview</h3><p>Total Sales: ₹50,000 | Pending Orders: 5</p></div>;
+      case 'Products': return <div><h3>🛍️ Manage Products</h3><button>+ Add New Product</button></div>;
+      case 'Orders': return <div><h3>📦 Order Management</h3><p>List of recent orders...</p></div>;
+      case 'Settings': return <div><h3>⚙️ Website Settings</h3><p>Logo, UPI, Contact Details settings...</p></div>;
+      default: return <div><h3>{activeTab} Module</h3><p>Coming Soon...</p></div>;
+    }
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Master Admin Dashboard</h2>
-      
-      <div style={{ background: '#f9f9f9', padding: '20px', borderRadius: '10px' }}>
-        <h3>दुकान और पेमेंट सेटिंग्स (Live Edit)</h3>
-        
-        <label>दुकान का नाम:</label>
-        <input 
-          value={settings.storeName}
-          onChange={(e) => setSettings({...settings, storeName: e.target.value})}
-          style={{ width: '100%', padding: '10px', marginBottom: '15px' }}
-        />
+    <div style={{ display: 'flex', height: '100vh', fontFamily: 'Inter, sans-serif' }}>
+      {/* Sidebar */}
+      <aside style={{ width: '250px', background: '#0A192F', color: 'white', padding: '20px' }}>
+        <h2>Admin Panel</h2>
+        {menuItems.map(item => (
+          <div key={item} 
+            onClick={() => setActiveTab(item)}
+            style={{ padding: '10px', cursor: 'pointer', background: activeTab === item ? '#1E293B' : 'transparent' }}>
+            {item}
+          </div>
+        ))}
+        <button onClick={() => navigate('/admin/login')} style={{ marginTop: '20px', background: 'red', color: 'white' }}>Logout</button>
+      </aside>
 
-        <label>UPI ID (पेमेंट के लिए):</label>
-        <input 
-          value={settings.upiId}
-          onChange={(e) => setSettings({...settings, upiId: e.target.value})}
-          style={{ width: '100%', padding: '10px', marginBottom: '15px' }}
-        />
-
-        <button 
-          onClick={handleSave}
-          style={{ background: '#0A192F', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
-        >
-          प्रोफेशनल अपडेट सेव करें
-        </button>
-      </div>
+      {/* Main Content */}
+      <main style={{ flex: 1, padding: '40px', background: '#f8f9fa' }}>
+        <header style={{ borderBottom: '2px solid #ddd', marginBottom: '20px' }}>
+          <h1>{activeTab}</h1>
+        </header>
+        {renderContent()}
+      </main>
     </div>
   );
 }
